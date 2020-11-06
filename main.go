@@ -9,8 +9,9 @@ import (
 )
 
 const (
+	version      = "1.0.0"
 	command      = "plink.exe"
-	sshSignature = "OpenSSH_for_Windows_7.7p1, LibreSSL 2.6.5"
+	sshSignature = "OpenSSH_8.3p1, OpenSSL 1.1.1g  21 Apr 2020" // "OpenSSH_for_Windows_7.7p1, LibreSSL 2.6.5"
 )
 
 func trimArgs(argToTrim string, args []string) []string {
@@ -28,13 +29,21 @@ func main() {
 	args := os.Args
 
 	if len(args) == 1 {
-		fmt.Fprintf(os.Stderr, "ssh2plink")
-		return
+		fmt.Fprintf(os.Stderr, "ssh2plink %v\n", version)
 	}
 
 	fullCmd, err := resolveCmd(command)
 	if err != nil {
-		fmt.Printf("Error: %v", err)
+		fmt.Printf("Error: %v\n", err)
+		fmt.Printf("Please make sure %v is in your PATH (%v)\n", command, os.Getenv("PATH"))
+		return
+	}
+
+	if len(args) == 1 {
+		cmd := exec.Command(fullCmd, "-V")
+		cmd.Stdout = os.Stderr
+		cmd.Stderr = os.Stderr
+		cmd.Run()
 		return
 	}
 
