@@ -11,7 +11,7 @@ import (
 const (
 	version      = "1.0.0"
 	command      = "plink.exe"
-	sshSignature = "OpenSSH_8.3p1, OpenSSL 1.1.1g  21 Apr 2020" // "OpenSSH_for_Windows_7.7p1, LibreSSL 2.6.5"
+	sshSignature = "OpenSSH_8.3p1, OpenSSL 1.1.1g  21 Apr 2020"
 )
 
 func trimArgs(argToTrim string, args []string) []string {
