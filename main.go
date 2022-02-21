@@ -7,6 +7,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"regexp"
+	"runtime"
 	"strconv"
 	"strings"
 
@@ -238,6 +239,21 @@ func main() {
 	copy(args, argsWithCmd[1:])
 	flag.Parse()
 	realArgs := flag.Args()
+
+	osName := runtime.GOOS
+	switch osName {
+	case "darwin":
+		fmt.Println("MAC OS not supported as plink.exe can't run here!")
+		return
+	case "linux":
+		fmt.Println("Linux not supported as plink.exe can't run here!")
+		return
+	case "windows":
+		// all fine
+	default:
+		fmt.Printf("%s not supported.\n", osName)
+		return
+	}
 
 	fullPlinkCmd, err := resolveCmd(command)
 	if err != nil {
